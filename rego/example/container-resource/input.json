@@ -1,0 +1,108 @@
+{
+    "kind": "AdmissionReview",
+    "request": {
+        "kind": {
+            "kind": "Pod",
+            "version": "v1"
+        },
+        "object": {
+            "metadata": {
+                "name": "myapp"
+            },
+            "spec": {
+                "containers": [
+                    {
+                        "image": "hooli.com/nginx",
+                        "name": "nginx-frontend",
+                        "resources": {
+                            "requests": {
+                                "cpu" :100,
+                                "memory": 200
+                            },
+                            "limits" : {
+                                "cpu" : 300,
+                                "memory" : 400
+                            }
+                        }
+                    },
+                    {
+                        "image": "mysql",
+                        "name": "mysql-backend",
+                        "resources": {
+                            "requests": {
+                                "cpu" :100,
+                                "memory": 200
+                            }
+                        }
+                    },
+                    {
+                        "image": "test3",
+                        "name": "ONLY RESOURCE LIMIT",
+                        "resources": {
+                            "limits" : {
+                                "cpu" : 300,
+                                "memory" : 400
+                            }
+                        }
+                    },
+                    {
+                        "image": "test4",
+                        "name": "Nothing"
+                    },
+                    {
+                        "image": "test5",
+                        "name": "NO CPU LIMIT",
+                        "resources": {
+                            "requests": {
+                                "cpu" :100,
+                                "memory": 200
+                            },
+                            "limits" : {
+                                "memory" : 400
+                            }
+                        }
+                    },
+                    {
+                        "image": "test6",
+                        "name": "NO MEMORY LIMIT",
+                        "resources": {
+                            "requests": {
+                                "cpu" :100,
+                                "memory": 200
+                            },
+                            "limits" : {
+                                "cpu" : 300
+                            }
+                        }
+                    },
+                    {
+                        "image": "test7",
+                        "name": "NO CPU REQUEST",
+                        "resources": {
+                            "requests": {
+                                "memory": 200
+                            },
+                            "limits" : {
+                                "cpu" : 300,
+                                "memory": 400
+                            }
+                        }
+                    },
+                    {
+                        "image": "test8",
+                        "name": "NO MEMORY REQUEST",
+                        "resources": {
+                            "requests": {
+                                "cpu": 200
+                            },
+                            "limits" : {
+                                "cpu" : 300,
+                                "memory": 400
+                            }
+                        }
+                    }
+                ]
+            }
+        }
+    }
+}
