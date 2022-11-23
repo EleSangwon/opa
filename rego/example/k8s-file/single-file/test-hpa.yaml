@@ -1,0 +1,28 @@
+apiVersion: autoscaling/v2beta1
+kind: HorizontalPodAutoscaler
+metadata:
+  labels:
+    app.kubernetes.io/instance: test
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: test
+    app.kubernetes.io/part-of: test
+    app.kubernetes.io/version: 1.0.0
+    environment: dev
+    helm.sh/chart: test-1.0.0
+  name: test-hpa
+spec:
+  maxReplicas: 1
+  metrics:
+  - resource:
+      name: cpu
+      targetAverageUtilization: 80
+    type: Resource
+  - resource:
+      name: memory
+      targetAverageUtilization: 80
+    type: Resource
+  minReplicas: 1
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: test

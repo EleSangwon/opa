@@ -1,0 +1,75 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/instance: test
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: test
+    app.kubernetes.io/part-of: test
+    app.kubernetes.io/version: 1.0.0
+    environment: dev
+    helm.sh/chart: test-1.0.0
+  name: test-deployment
+spec:
+  replicas: 100
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: test
+  template:
+    metadata:
+      annotations:
+        prometheus.io/path: /metrics
+        prometheus.io/port: "3001"
+        prometheus.io/scrape: "true"
+        vault.hashicorp.com/agent-init-first: "true"
+        vault.hashicorp.com/agent-inject: "true"
+        vault.hashicorp.com/agent-inject-secret-config.yaml: common/data
+        vault.hashicorp.com/secret-volume-path: /config
+      labels:
+        app.kubernetes.io/instance: test
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: test
+        app.kubernetes.io/part-of: test
+        app.kubernetes.io/version: 1.0.0
+        environment: dev
+        helm.sh/chart: test-1.0.0
+    spec:
+      containers:
+      - command:
+        - /config/config.yaml
+        env:
+        - name: AWS_DEFAULT_REGION
+          value: ap-northeast-2
+        image: 123456789101.dkr.ecr.ap-northeast-2.amazonaws.com/test-backend:latest
+        imagePullPolicy: Always
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: test
+        name: test-deployment
+        ports:
+        - containerPort: 1111
+          name: test
+          protocol: TCP
+        - containerPort: 2222
+          name: test-internal
+          protocol: TCP
+        - containerPort: 3333
+          name: test2
+          protocol: TCP
+        - containerPort: 4444
+          name: test2-internal
+          protocol: TCP
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: test
+        resources:
+          limits:
+            cpu: "1000m"
+            memory: 2000Mi
+          requests:
+            cpu: "1000m"
+            memory: 1000000Gi
+      serviceAccountName: test-app
+      terminationGracePeriodSeconds: 60

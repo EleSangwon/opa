@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: cpu-request-too-high
+  namespace: production
+  labels:
+    owner: me.agilebank.demo
+spec:
+  containers:
+    - name: cpu-request-too-high
+      image: openpolicyagent/opa:0.9.2
+      args:
+        - "run"
+        - "--server"
+        - "--addr=localhost:8080"
+      resources:
+        limits:
+          cpu: "5000m"
+          memory: "50Mi"
+        requests:
+          cpu: "5000m"
+          memoty: "50Mi"

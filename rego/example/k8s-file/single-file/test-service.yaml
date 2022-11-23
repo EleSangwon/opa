@@ -1,0 +1,39 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app.kubernetes.io/instance: test
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: test
+    app.kubernetes.io/part-of: test
+    app.kubernetes.io/version: 1.0.0
+    environment: dev
+    helm.sh/chart: test-1.0.0
+  name: test-service
+spec:
+  ports:
+  - name: test1
+    nodePort: null
+    port: 1111
+    protocol: TCP
+    targetPort: test
+  - name: test2
+    nodePort: null
+    port: 2222
+    protocol: TCP
+    targetPort: main-internal
+  - name: test3
+    nodePort: null
+    port: 3333
+    protocol: TCP
+    targetPort: testnet
+  - name: test4
+    nodePort: null
+    port: 4444
+    protocol: TCP
+    targetPort: test-internal
+  selector:
+    app.kubernetes.io/instance: test
+    app.kubernetes.io/name: test
+    app.kubernetes.io/part-of: test
+  type: ClusterIP
